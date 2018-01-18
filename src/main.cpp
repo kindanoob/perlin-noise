@@ -77,7 +77,8 @@ double PerlinNoise(int x, int y, const std::array<std::vector<double>, 256>& pre
     y_norm -= static_cast<int>(y_norm);
     int x_grid_top_left = (x / grid_step) * grid_step;//x coordinate of top left grid neighbor of (x, y)
     int y_grid_top_left = (y / grid_step) * grid_step;
-    int gradient_index0 = index_permutation[(x_grid_top_left + index_permutation[y_grid_top_left % 256]) % 256];//gradient index of top left grid neighbor of (x, y)
+    //gradient indices of grid neighbors of (x, y)
+    int gradient_index0 = index_permutation[(x_grid_top_left + index_permutation[y_grid_top_left % 256]) % 256];
     int gradient_index1 = index_permutation[(x_grid_top_left + 1 + index_permutation[y_grid_top_left % 256]) % 256];
     int gradient_index2 = index_permutation[(x + index_permutation[(y_grid_top_left + 1) % 256]) % 256];
     int gradient_index3 = index_permutation[(x_grid_top_left + 1 + index_permutation[(y_grid_top_left + 1) % 256]) % 256];
@@ -139,6 +140,8 @@ int main() {
     srand(time(nullptr));
     sf::RenderWindow window(sf::VideoMode(kWindowWidthPx, kWindowHeightPx), "PerlinNoise");
 
+    window.setFramerateLimit(6);
+
     sf::Image image;
     image.create(kWindowWidthPx, kWindowHeightPx, sf::Color::Blue);
 
@@ -193,13 +196,9 @@ int main() {
                     temp *= frequency_multiplier;
                 }
                 sum_noise *= 8;//wood texture
-                //sum_noise -= static_cast<int>(sum_noise);
-                //sum_noise = (sin((x + sum_noise * 100) * 2 * acos(-1) / 200.0) + 1) / 2.0;
+                //sum_noise = (sin((x + sum_noise * 400) * 2 * acos(-1) / 100.0) + 1) / 2.0;
                 //sum_noise /= tot;
                 //sum_noise /= sqrt(tot);
-                //sum_noise *= sum_noise;
-                //sum_noise *= sum_noise * sum_noise;
-                //sum_noise *= sum_noise * sum_noise * sum_noise;
                 for (int k = 0; k < 3; ++k) {
                     pixels[(x + kWindowWidthPx * y) * 4 + k] = 255 * sum_noise;
                 }
