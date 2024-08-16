@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -13,7 +14,7 @@ const int kNumLayers = 5;
 const double kRateOfChange = 2.0;
 
 void Normalize(std::vector<double>& v) {
-    double len = sqrt(v[0] * v[0] + v[1] * v[1]);
+    double len = std::sqrt(v[0] * v[0] + v[1] * v[1]);
     v[0] /= len;
     v[1] /= len;
 }
